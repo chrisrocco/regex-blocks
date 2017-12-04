@@ -4,7 +4,7 @@ describe('Back-References', () => {
 
     it("Supports back references", () => {
         let regexp = regex(
-            anyOf(str('a'), str('b'), str('c')).capture(),
+            anyOf(str('a'), str('b')).capture(),
             str('--'),
             backRef(1)
         ).compile();
