@@ -1,20 +1,20 @@
-import {RegularExpression} from "../src/RegularExpression";
-import {StringLiteral} from "../src/blocks/character/CharacterLiteral";
-import {Alternator} from "../src/blocks/Alternator";
+import {anyOf, regex, str} from "../src/factories";
 
-describe('alternators test', () => {
+describe('Alternators', () => {
 
-    it('Builds a regular expression with alternators', () => {
-        let regex = new RegularExpression();
-        let alternator = new Alternator();
-        alternator.add(new StringLiteral('chris'));
-        alternator.add(new StringLiteral('rocco'));
-        regex.add(alternator);
-        let res = regex.compile();
+    it('supports alternators', () => {
 
-        expect('chris').toMatch(res);
-        expect('rocco').toMatch(res);
-        expect('jon').not.toMatch(res);
+        let output = regex()
+            .concat(anyOf(
+                str('dog'),
+                str('fish'),
+                str('frog')
+            ))
+            .compile();
+
+        expect('dog').toMatch(output);
+        expect('fish').toMatch(output);
+        expect('duck').not.toMatch(output);
     });
 
 });

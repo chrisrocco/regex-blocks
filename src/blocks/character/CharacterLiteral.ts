@@ -2,32 +2,26 @@ import {Character} from "./Character";
 
 class CharacterLiteral extends Character {
 
-    constructor(protected symbol: string){ super() }
+    symbol: string;
+
+    constructor(symbol: string){
+        super();
+        this.symbol = symbol;
+    }
 
     toString(): string {
         let qs = this.getQuantifierString();
+        let la = this.getLookAheadString();
+        let lb = this.getLookBehindString();
         let sy = this.symbol;
-        if(qs === '') return sy;
-        if(sy.length === 1) return sy + qs;
-        if(sy.length === 2 && sy[0] === '\\') return sy + qs;
-        return '(?:' + this.symbol + ')' + qs;
+        if(qs === '' && la === '' && lb === '')
+            return sy;
+        if(sy.length === 1)
+            return this.addModifiers(sy);
+        if(sy.length === 2 && sy[0] === '\\')
+            return this.addModifiers(sy);
+        return this.addModifiers('(?:' + this.symbol + ')');
     }
 }
 
-class StringLiteral extends CharacterLiteral {
-    constructor(protected symbol: string){
-        super(StringLiteral.escapeSpecial(symbol));
-    }
-
-    private static escapeSpecial(str: string): string {
-        // TODO - fix this?
-        return str.replace(/([.?()])/g, 'test')
-    }
-}
-
-const whitespace = (): CharacterLiteral => new CharacterLiteral('\\s');
-const digit = (): CharacterLiteral => new CharacterLiteral('\\d');
-const word = (): CharacterLiteral => new CharacterLiteral('\\w');
-const string = ( string: string ) => new StringLiteral( string );
-
-export { whitespace, digit, word, string, StringLiteral }
+export { CharacterLiteral }

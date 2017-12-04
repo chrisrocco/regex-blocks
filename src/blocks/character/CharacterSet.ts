@@ -6,9 +6,14 @@ class CharacterSet extends Character {
 
     constructor(private charString: string){ super() }
 
+    not(){
+        this.isNot = true;
+        return this;
+    }
+
     toString(){
         let mod = (this.isNot)? '^' : '';
-        return '[' + mod + this.charString + ']';
+        return this.addModifiers('[' + mod + this.charString + ']');
     }
 
 }

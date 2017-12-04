@@ -1,34 +1,26 @@
-import {Block} from "./blocks/Block";
+class Quantifier {
 
-interface Quantifier {
-    symbol: string
+    constructor(
+        protected symbol: string,
+        protected isLazy: boolean = false
+    ){}
+
+    lazy(){
+        this.isLazy = true;
+        return this;
+    }
+
+    toString(){
+        let lazy = (this.isLazy) ? "?" : "";
+        return this.symbol + lazy;
+    }
 }
 
-const ONE_OR_MORE: Quantifier = {
-    symbol: '+'
-};
+let repeat = ( min: number = 1, max: number = 1 ): Quantifier => new Quantifier(`{${min},${max}}`);
 
-const ZERO_OR_MORE: Quantifier = {
-    symbol: '*'
-};
+const ONE_OR_MORE: Quantifier = new Quantifier('+');
+const ZERO_OR_MORE: Quantifier = new Quantifier('*');
+const ZERO_OR_ONE: Quantifier = repeat(0, 1);
 
-const ZERO_OR_ONE: Quantifier = {
-    symbol: '?'
-};
 
-let kleeneStar = ( block: Block ) => {
-    block.setQuantifier(ZERO_OR_ONE);
-    return block;
-};
-
-let kleenPlus = ( block: Block ) => {
-    block.setQuantifier(ONE_OR_MORE);
-    return block;
-};
-
-let optionally = ( block: Block ) => {
-    block.setQuantifier(ZERO_OR_ONE);
-    return block;
-};
-
-export { Quantifier, ONE_OR_MORE, ZERO_OR_MORE, ZERO_OR_ONE, kleeneStar, kleenPlus, optionally }
+export {Quantifier, repeat, ONE_OR_MORE, ZERO_OR_MORE, ZERO_OR_ONE}

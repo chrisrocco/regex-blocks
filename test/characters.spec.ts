@@ -1,27 +1,25 @@
-import {RegularExpression} from "../src/RegularExpression";
-import {StringLiteral, whitespace} from "../src/blocks/character/CharacterLiteral";
-import {CharacterSet} from "../src/blocks/character/CharacterSet";
+import {inSet, regex, str, space} from "../src/factories";
 
-describe('literals test', () => {
+describe('Characters', () => {
 
-    it('Builds a regular expression with only character literals', () => {
-        let regex = new RegularExpression();
-        regex.add(new StringLiteral('chris'));
-        regex.add(whitespace());
-        regex.add(new StringLiteral('rocco'));
-        let res = regex.compile();
+    it('Literal tokens', () => {
 
-        expect('chris rocco').toMatch(res);
-        expect('jon doe').not.toMatch(res);
+        let output = regex(str('chris'), space(), str('rocco')).compile();
+
+        expect('chris rocco').toMatch(output);
+        expect('jon doe').not.toMatch(output);
     });
 
     it("Supports character sets", () => {
-        let regex = new RegularExpression();
-        let cs = new CharacterSet('abc');
-        cs.isNot = true;
-        regex.add(cs);
 
-        expect(regex.toString()).toEqual("^[^abc]$");
+        let rg = regex(inSet('abc').not()).fullMatch().compile();
+
+        expect('a').not.toMatch(rg);
+        expect('d').toMatch(rg);
+    });
+
+    it("Escapes special characters", () => {
+        expect(str('.').toString()).toEqual('\\.');
     })
 
 });

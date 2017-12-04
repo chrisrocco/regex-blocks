@@ -1,19 +1,27 @@
-import {RegularExpression} from "../src/RegularExpression";
-import {StringLiteral, word} from "../src/blocks/character/CharacterLiteral";
-import {ONE_OR_MORE} from "../src/Quantifier";
+import {regex, str, word} from "../src/factories";
 
 describe('quantifiers test', () => {
 
     it('Builds a regular expression with quantifiers', () => {
-        let regex = new RegularExpression();
-        let body = word();
-        body.setQuantifier(ONE_OR_MORE);
-        regex.add(body);
-        regex.add(new StringLiteral('.com'));
-        let res = regex.compile();
 
-        expect('example.com').toMatch(res);
-        expect('example.org').not.toMatch(res);
+        let output = regex(
+            word().oneOrMore(),
+            str('.com')
+        ).compile();
+
+        expect('example.com').toMatch(output);
+        expect('example.org').not.toMatch(output);
     });
+
+    it("Supports repetitions", () => {
+        let regexp = regex()
+            .concat(str('abc').repeat(2,5))
+            .fullMatch()
+            .compile();
+
+        expect('abc').not.toMatch(regexp);
+        expect('abcabcabc').toMatch(regexp);
+        expect('abcabcabcabcabcabc').not.toMatch(regexp);
+    })
 
 });

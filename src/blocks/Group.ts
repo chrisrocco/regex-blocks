@@ -11,8 +11,18 @@ class Group extends Block {
         this.blocks = blocks;
     }
 
-    add( block: Block ){
+    concat( block: Block ){
         this.blocks.push(block);
+    }
+
+    capture() {
+        this.isCapturing = true;
+        return this;
+    }
+
+    nonCapturing(){
+        this.isCapturing = false;
+        return this;
     }
 
     toString(): string {
@@ -20,7 +30,7 @@ class Group extends Block {
         this.blocks.forEach( blk => blockStr += blk.toString() );
         if(!this.isCapturing && !this.quantifier)
             return blockStr;
-        return '(' + this.innerModifier() + blockStr + ')' + this.getQuantifierString();
+        return this.addModifiers('(' + this.innerModifier() + blockStr + ')');
     }
 
     protected innerModifier(): string {
@@ -29,9 +39,4 @@ class Group extends Block {
 
 }
 
-let capture = ( group: Group ) => {
-    group.isCapturing = true;
-    return group;
-};
-
-export { Group, capture }
+export { Group }
