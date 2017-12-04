@@ -1,0 +1,32 @@
+{
+  "name": "regex-blocks",
+  "version": "1.0.0",
+  "description": "Virtually build regular expressions, one block at a time.",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "karma start"
+  },
+  "keywords": [
+    "regex",
+    "builder",
+    "blocks",
+    "regex",
+    "blocks"
+  ],
+  "author": "Chris Rocco",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^3.9.1",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "@types/jasmine": "^2.8.2",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-typescript": "^3.0.8",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-html-reporter": "^0.2.7",
+    "karma-jasmine": "^1.1.1",
+    "karma-jasmine-html-reporter": "^0.2.2"
+  }
+}
